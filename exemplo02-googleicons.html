@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia_de_Deploy</title>
+    <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
+
+    <style>
+        :root {
+            --fundo-claro: #fff;
+            --fundo-escuro: #000;
+            --botao-primario: #7d1ad4;
+            --botao-primario-hover: #6e17b9;
+            --texto-claro: #000;
+            /* Adicionar esta variável para o texto no tema claro */
+            --texto-escuro: #fff;
+            /* Adicionar esta variável para o texto no tema escuro */
+        }
+
+        [data-theme="dark"] {
+            --fundo-claro: #000;
+            --fundo-escuro: #fff;
+            --texto-claro: #fff;
+            --texto-escuro: #000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--fundo-claro);
+            color: var(--texto-claro);
+            /* Adicionar esta linha */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div {
+            background-color: var(--fundo-escuro);
+            color: var(--texto-escuro);
+            /* Adicionar esta linha */
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 0.9rem;
+        }
+
+        button {
+            background-color: var(--botao-primario);
+            color: var(--texto-escuro);
+            /* Adicionar texto do botão mude */
+            padding: 0.4rem;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            display: flex;
+            /* Para centralizar o ícone */
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            background-color: var(--botao-primario-hover);
+            transition: 0.8s;
+        }
+
+
+        /* Sera acresentado tratamento para os icones  */
+        /* 
+        svg {
+            color: var(--texto-claro);
+            /* Ajuste a cor do SVG conforme o tema 
+            width: 34px;
+            height: 34px;
+        }
+        */
+
+        .material-symbols-rounded {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 48;
+            font-size: 34px;
+            /* Ajuste o tamanho do ícone */
+            color: var(--texto-claro);
+            /* Cor inicial do ícone */
+        }
+
+        [data-theme="dark"] .material-symbols-rounded {
+            color: var(--texto-escuro);
+            /* Cor do ícone no tema escuro */
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Dia de Deploy</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Laboriosam quidem explicabo facilis et molestiae eos
+            ratione magni aperiam similique quae? Dolores ad ea,
+            est dolorem error aut vel necessitatibus eos.</p>
+
+        <button id="btn-dark-mode"></button>
+    </div>
+
+</body>
+
+<script>
+    // 'const' é usado para variáveis que não serão reatribuídas após a inicialização.
+    // 'btnDarkMode' armazena a referência ao elemento HTML do botão com o ID 'btn-dark-mode'.
+    const btnDarkMode = document.getElementById('btn-dark-mode');
+
+    // 'themeSystem' obtém o valor da chave 'themeSystem' do 'localStorage'.
+    // Se não existir nenhum valor para essa chave, o valor padrão 'light' é atribuído.
+    const themeSystem = localStorage.getItem('themeSystem') || 'light';
+
+    // Adiciona um 'event listener' ao botão para o evento de 'click'.
+    // Quando o botão é clicado, a função dentro das chaves '{}' será executada.
+    btnDarkMode.addEventListener('click', () => {
+        // Obtém o tema atual do 'localStorage' (ou usa 'light' como padrão).
+        let oldTheme = localStorage.getItem('themeSystem') || 'light';
+
+        // Determina o novo tema. Se o tema antigo for 'light', o novo será 'dark', e vice-versa.
+        let newTheme = oldTheme === "light" ? "dark" : "light";
+
+        // Salva o novo tema no 'localStorage' com a chave 'themeSystem'.
+        localStorage.setItem('themeSystem', newTheme);
+
+        // Chama a função 'defineCurrentTheme' para aplicar o novo tema visualmente.
+        defineCurrentTheme(newTheme);
+    });
+
+    // Função que recebe um 'theme' como argumento e aplica esse tema à página.
+    function defineCurrentTheme(theme) {
+        // Define os nomes dos ícones do Google Material Symbols Rounded para cada tema.
+
+        // Ícone de sol para o modo escuro
+        const darkIcon = '<span class="material-symbols-rounded">light_mode</span>';
+
+        // Ícone de lua para o modo claro
+        const lightIcon = '<span class="material-symbols-rounded">dark_mode</span>';
+
+        // Define o atributo 'data-theme' no elemento 'html' com o valor do tema atual.
+        // Isso permite que as regras CSS com '[data-theme="..."]' sejam aplicadas.
+        document.documentElement.setAttribute("data-theme", theme);
+
+        // Verifica se o tema atual é 'light'.
+        if (theme === "light") {
+            // Se for 'light', define o conteúdo interno do botão com o ícone de sol.
+            btnDarkMode.innerHTML = darkIcon;
+            return; // Sai da função após definir o ícone.
+        }
+
+        // Se o tema não for 'light' (implica que é 'dark' neste caso),
+        // define o conteúdo interno do botão com o ícone de lua.
+        btnDarkMode.innerHTML = lightIcon;
+    }
+
+    // Chama a função 'defineCurrentTheme' inicialmente com o tema obtido do 'localStorage'
+    // (ou 'light' se nenhum tema estiver salvo). Isso garante que o tema correto seja aplicado
+    // quando a página carrega.
+    defineCurrentTheme(themeSystem);
+</script>
+
+</html>
