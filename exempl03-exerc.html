@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso_JS</title>
+    <title>Cursor_JS</title>
 
     <style>
         /* O que Falta aqui ? */
@@ -24,7 +24,11 @@
             text-align: center;
             margin: 0 auto;
         }
-
+        
+        /*
+        container, será para div especificar usadas no CSS. Usando um HTML podemos definir como section
+        */
+        
         h1 {
             color: #fff;
             font-size: 4rem;
@@ -101,12 +105,19 @@
 <script>
 
     const cursor = document.querySelector(".cursor");
+    /*
+    variavel tem o nome cursor que... será exibido na pagina. chamando o seletor com base na class do CSS.
+    */
 
+    /*será exibido na pagina. Sempre será adicionado uma ação dentro dos eventos, com base nos eixos x e y*/
     document.addEventListener("mousemove", function (event) {
 
         moveCursor(event.pageX, event.pageY);
     });
 
+    /*
+    variavel tem o nome mover o cursor que criar uma ação de modificar o estilo da ponta do mouse
+    */
     const moveCursor = function (pageX, pageY) {
         cursor.style.left = pageX + "px";
         cursor.style.top = pageY + "px";
