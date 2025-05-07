@@ -1,16 +1,15 @@
-<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seletor de Color</title>
-    <!-- favicon -->
-    <!-- <link rel="stylesheet" href="style.css"> -->
-
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplo 04</title>
+    <!-- <title>Random Background Color Changer</title> -->
+    <!-- <link rel="stylesheet" href="style.css" /> -->
     <style>
         body {
-            background: #dc143c;
+            background: #003482;
             min-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -43,38 +42,43 @@
         }
     </style>
 
+
 </head>
 
 <body>
+    <button id="btn">Qual sua Cor?</button>
+    <h2 id="hexCode">#003482</h2>
 
-    <button id="btn">Qual é sua Cor?</button>
-    <h2 id="hexCode">#dc143c</h2>
-
+    <!-- <script src="app.js"></script> -->
 
 </body>
+
 <script>
-    const btn = document.getElementById
-        ("btn");
+    // criar as variaveis
+    const btn = document.getElementById("btn");
+    //uma variavel para o usuario não modificar
 
-    let hex = document.getElementById
-        ("hexCode");
+    let hex = document.getElementById("hexCode");
+    //variavel para ser exibida ou t-rex
 
-    function mudarCor() {
+    //serve para juntar os numero e o hexadecimal
+    function trocarCor() {
+        
         let letters = "0123456789ABCDEF";
 
         let color = "#";
-
+        //
         for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
+            color += letters[Math.floor
+                (Math.random() * 16)];
         }
         return color;
     }
 
     btn.addEventListener("click", () => {
-        document.body.style.backgroundColor = mudarCor();
-        hex.innerHTML = mudarCor();
+        document.body.style.backgroundColor = trocarCor();
+        hex.innerHTML = trocarCor();
     })
-
 </script>
 
 </html>

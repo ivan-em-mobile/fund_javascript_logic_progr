@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula03_Js</title>
-    <!-- favicon -->
-    <!-- css -->
+    <title>JS_Relogio</title>
+    <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+
     <style>
         :root {
             --color-dark: #000;
             --color-white: #fff;
             --color-light: #ababab;
-            --color-carmen: #dc143c;
+            --color-purple: #5C2B7A;
         }
 
         * {
@@ -20,23 +21,21 @@
             padding: 0;
             background-color: var(--color-dark);
             color: var(--color-white);
-            /* Fontes serifa ou sem serifas */
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
 
         body {
             display: flex;
             justify-content: center;
-            flex-direction: column;
             align-items: center;
-            gap: 16px;
+            flex-direction: column;
             min-height: 100vh;
+            gap: 16px;
         }
 
         .clock {
             display: flex;
             justify-content: center;
-            gap: 50px;
             flex-wrap: wrap;
         }
 
@@ -45,11 +44,12 @@
             font-size: 150px;
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 50;
         }
 
         .clock span:not(:last-child)::after {
-            content: '⚔️';
+            content: "♠️";
+            
             margin-bottom: 25px;
             color: var(--color-light);
         }
@@ -60,65 +60,54 @@
         }
 
         h2 strong {
-            color: var(--color-carmen);
+            color: var(--color-purple);
         }
 
         @media screen and (max-width:992px) {
             .clock span {
                 font-size: 50px;
+
             }
 
             .clock span:not(:last-child)::after {
-                /* display: none; */
-                display: block;
-                content: ':';
-                margin-bottom: 5px;
-            }
-
-
-            h2 strong {
+                display: none;
+                content: ":";
+                margin-bottom: 25px;
                 color: var(--color-light);
             }
-
         }
     </style>
+
 </head>
 
 <body>
+
     <div class="clock">
+
         <span id="hours">00</span>
-
         <span id="minutes">00</span>
-
         <span id="seconds">00</span>
+
     </div>
+    <h2>Criado<strong> @_ivanpaulino - Vocação 2025 </strong></h2>
 
-
-    <h2>
-        <strong>
-            @_ivanpaulino - Vocação 2025
-        </strong>
-    </h2>
 </body>
-<!-- script src -->
 <script>
 
     const hoursElement = document.getElementById(`hours`);
-
     const minutesElement = document.getElementById(`minutes`);
-
     const secondsElement = document.getElementById(`seconds`);
 
     function fixTime(time) {
         return time < 10 ? '0' + time : time
     }
 
+
     function newTime() {
         const date = new Date();
         const hours = date.getHours();
         const minutes = date.getMinutes();
         const seconds = date.getSeconds();
-
 
         hoursElement.textContent = fixTime(hours);
         minutesElement.textContent = fixTime(minutes);
@@ -129,6 +118,5 @@
     setInterval(newTime, 1000);
 
 </script>
-
 
 </html>

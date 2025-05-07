@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS_Relogio</title>
+    <style>
+        /*
+            Aqui definimos as variáveis de cores que podemos usar em todo o CSS.
+            Isso facilita mudar as cores do site depois, se precisarmos.
+        */
+        :root {
+            --color-dark: #000; /* Cor preta */
+            --color-white: #fff; /* Cor branca */
+            --color-light: #ababab; /* Cor cinza clara */
+            --color-purple: #5C2B7A; /* Cor roxa */
+        }
+
+        /*
+            O asterisco (*) significa que essas regras se aplicam a todos os elementos da página.
+            Estamos zerando as margens e paddings (espaçamentos) padrão dos elementos
+            e definindo a cor de fundo e a cor do texto para todo o site.
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        /*
+            Aqui estamos estilizando o corpo da página (o <body>).
+            'display: flex' e as propriedades 'justify-content', 'align-items' e 'flex-direction'
+            são usadas para centralizar os elementos (o relógio e o texto) na tela.
+            'min-height: 100vh' garante que o corpo ocupe pelo menos a altura total da tela.
+            'gap: 16px' adiciona um espaço entre os elementos filhos (o relógio e o texto).
+        */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            gap: 16px;
+        }
+
+        /*
+            Estilizando a div que contém os números do relógio.
+            'display: flex' e 'justify-content: center' alinham os números horizontalmente no centro.
+            'flex-wrap: wrap' faz com que os números quebrem para a próxima linha em telas menores.
+        */
+        .clock{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /*
+            Estilizando cada um dos spans que contêm as horas, minutos e segundos.
+            'color' define a cor do texto dos números.
+            'font-size' define o tamanho da fonte.
+            'display: flex' e 'align-items: center' são usados para centralizar verticalmente o conteúdo 
+            (no caso, não há outro conteúdo além do número, mas é uma boa prática).
+            'gap: 50' adiciona um espaço entre os spans (o que visualmente não vemos, pois o separador é adicionado depois).
+        */
+        .clock span {
+            color: var(--color-white);
+            font-size: 150px;
+            display: flex;
+            align-items: center;
+            gap: 50;
+        }
+
+        /*
+            Aqui estamos adicionando um separador (o ponto e vírgula) depois de cada span,
+            exceto o último.
+            'content: ";"' define o que será exibido como separador.
+            'margin-bottom' adiciona um pequeno espaço abaixo do separador.
+            'color' define a cor do separador.
+        */
+        .clock span:not(:last-child)::after{
+            content: ";";
+            margin-bottom: 25px;
+            color: var(--color-light);
+        }
+
+        /*
+            Estilizando o elemento <h2> que contém a informação do criador.
+            'width: 100%' faz com que ocupe toda a largura disponível.
+            'text-align: center' centraliza o texto horizontalmente.
+        */
+        h2{
+            width: 100%;
+            text-align: center;
+        }
+
+        /*
+            Estilizando a tag <strong> dentro do <h2> para destacar o nome.
+            'color' define a cor do texto destacado.
+        */
+        h2 strong{
+            color: var(--color-purple);
+        }
+
+        /*
+            Esta é uma Media Query. Ela aplica estilos diferentes para telas com largura máxima de 992 pixels 
+            (dispositivos menores, como tablets e alguns celulares).
+        */
+        @media screen and (max-width:992px)
+        {
+            /*
+                Diminuindo o tamanho da fonte dos números do relógio em telas menores.
+            */
+            .clock span{
+                font-size: 50px;
+
+            }
+
+            /*
+                Removendo o separador (o ponto e vírgula) entre os números em telas menores
+                para evitar que ele fique desproporcional com a fonte menor.
+            */
+            .clock span:not(:last-child)::after{
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="clock">
+
+        <span id="hours">00</span>
+        <span id="minutes">00</span>
+        <span id="seconds">00</span>
+
+    </div>
+    <h2>Criado<strong>@_ivanpaulino - Vocação 2025</strong></h2>
+
+</body>
+<script>
+    // **JavaScript para o Relógio Digital**
+
+    // 1. **Selecionando os Elementos HTML:**
+    //    Aqui, estamos pegando os elementos HTML com os IDs 'hours', 'minutes' e 'seconds'.
+    //    Usamos o `document.getElementById()` para acessar esses elementos e guardamos eles
+    //    em variáveis JavaScript para podermos manipulá-los depois.
+    const hoursElement = document.getElementById(`hours`);
+    const minutesElement = document.getElementById(`minutes`);
+    const secondsElement = document.getElementById(`seconds`);
+
+    // 2. **Função para Formatar o Tempo:**
+    //    Esta função (`fixTime`) recebe um número (que representa horas, minutos ou segundos).
+    //    Se esse número for menor que 10 (ou seja, tiver apenas um dígito), ela adiciona um '0' na frente.
+    //    Por exemplo, se o segundo for 5, ele será formatado para '05'. Isso garante que sempre tenhamos
+    //    dois dígitos para horas, minutos e segundos, deixando o relógio com uma aparência consistente.
+    function fixTime(time){
+        return time < 10 ? '0' +time :time
+    }
+
+    // 3. **Função para Atualizar o Tempo:**
+    //    Esta função (`newTime`) é a responsável por pegar a hora atual e atualizar o relógio na tela.
+    function newTime(){
+        // a. **Obtendo a Data e Hora Atuais:**
+        //    `new Date()` cria um objeto com a data e hora atuais do sistema do usuário.
+        const date = new Date();
+        //    Usamos métodos desse objeto para extrair as horas, minutos e segundos.
+        const hours = date.getHours(); // Obtém a hora (0-23)
+        const minutes = date.getMinutes(); // Obtém os minutos (0-59)
+        const seconds = date.getSeconds(); // Obtém os segundos (0-59)
+
+        // b. **Atualizando o Conteúdo dos Elementos HTML:**
+        //    Aqui, usamos as variáveis que criamos no início (`hoursElement`, `minutesElement`, `secondsElement`)
+        //    para acessar os elementos HTML correspondentes.
+        //    A propriedade `textContent` permite que modifiquemos o texto dentro desses elementos.
+        //    Estamos usando a função `fixTime` para garantir que as horas, minutos e segundos sempre
+        //    tenham dois dígitos antes de serem exibidos no HTML.
+        hoursElement.textContent = fixTime(hours);
+        minutesElement.textContent = fixTime(minutes);
+        secondsElement.textContent = fixTime(seconds);
+    }
+
+    // 4. **Chamando a Função Inicialmente e Definindo o Intervalo:**
+    //    `newTime()` é chamada pela primeira vez aqui para que o relógio apareça assim que a página carrega.
+    newTime();
+
+    //    `setInterval(newTime, 1000)` é uma função do JavaScript que executa outra função (neste caso, `newTime`)
+    //    repetidamente em um intervalo de tempo especificado.
+    //    O segundo argumento (`1000`) está em milissegundos, então 1000 milissegundos equivalem a 1 segundo.
+    //    Isso significa que a função `newTime` será executada a cada segundo, atualizando o relógio na tela.
+</script>
+
+</html>
