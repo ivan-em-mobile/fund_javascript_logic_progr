@@ -8,7 +8,7 @@ function clean() {
     document.querySelector(".tela").innerHTML = "";
 }
 
-function black() {
+function back() {
     let tela = document.querySelector(".tela").innerHTML;
     document.querySelector(".tela").innerHTML = tela.substring(0, tela.length - 1);
 }
